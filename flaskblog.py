@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 
 app = Flask(__name__)  # __name__ is the module's name
-
+# test
 posts = [
     {
         "name": "Marcus Smart",
