@@ -32,7 +32,7 @@ posts = [
         "position": "C",
         "HT_WT": "2.06 m, 107 kg",
         "DRAFT_INFO": "2018: Rd 1, Pk 27 (BOS)",
-    }
+    },
 ]
 
 
@@ -44,7 +44,7 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("about.html", title='About')
+    return render_template("about.html", title="About")
 
 
 if __name__ == "__main__":
