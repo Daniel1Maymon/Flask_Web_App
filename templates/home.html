@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title></title>
-</head>
-<body>
-    <h1>Home pagee</h1>
+{% extends "layout.html" %}
+{% block content %}
     {% for player in posts %}
         <h1>{{ player.name}}</h1>
         <p>position: {{player.position}}</p>
         <p>HT/WT: {{player.HT_WT}}</p>
         <p>Draft Info: {{player.DRAFT_INFO}}</p>
     {% endfor %}
+{% endblock content %}
 
-</body>
-</html>
