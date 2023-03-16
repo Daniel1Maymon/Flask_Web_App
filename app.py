@@ -84,4 +84,10 @@ def login():
     return render_template('login.html', title='Register', form=form)
 
 if __name__ == "__main__":
+    import os
+    path = '/root/Environments/Flask_blog'
+    os.chdir(path)
+    # from pathlib import Path
+    # print("File      Path:", Path(__file__).absolute())
+    # print("Directory Path:", Path().absolute()) # Directory of current working directory, not __file__  
     app.run(debug=True)
