@@ -1,43 +1,35 @@
+from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect
 from forms import RegistrationForm, LoginForm
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)  # __name__ is the module's name
 
 app.config['SECRET_KEY'] = '17c07ed30ca9cfaecbe544a2a44c6175'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
-# test
-# posts = [
-#     {
-#         "name": "Marcus Smart",
-#         "position": "PG",
-#         "HT_WT": "1.93 m, 99 kg",
-#         "DRAFT_INFO": "2014: Rd 1, Pk 6 (BOS)",
-#     },
-#     {
-#         "name": "Jaylen Brown",
-#         "position": "SG",
-#         "HT_WT": "1.98 m, 101 kg",
-#         "DRAFT_INFO": "2016: Rd 1, Pk 3 (BOS)",
-#     },
-#     {
-#         "name": "Jayson Tatum",
-#         "position": "SF",
-#         "HT_WT": "2.03 m, 95 kg",
-#         "DRAFT_INFO": "2017: Rd 1, Pk 3 (BOS)",
-#     },
-#     {
-#         "name": "Al Horford",
-#         "position": "C",
-#         "HT_WT": "2.06 m, 108 kg",
-#         "DRAFT_INFO": "2007: Rd 1, Pk 3 (ATL)",
-#     },
-#     {
-#         "name": "Robert Williams III",
-#         "position": "C",
-#         "HT_WT": "2.06 m, 107 kg",
-#         "DRAFT_INFO": "2018: Rd 1, Pk 27 (BOS)",
-#     },
-# ]
+db = SQLAlchemy(app)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+
+    def __repr__(self):
+        return f"User('{self.username}, {self.email}, {self.image_file})"
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    def __repr__(self):
+        return f"Post('{self.title}', '{self.date_posted}')"
 
 posts = [
     {
